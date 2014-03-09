@@ -78,9 +78,16 @@ fi
 if [ -e $HOME/.aliases ] && [ -f $HOME/.aliases ] ; then
   source $HOME/.aliases
 fi
+# curl helper
+if [ -e $HOME/bin/api-curl-helper.sh ] && [ -f $HOME/bin/api-curl-helper.sh ] ; then
+  source $HOME/bin/api-curl-helper.sh
+fi
 
 # Load .bash_etc if it is available (for OS-specific configs, not versioned)
 # also, we want to load this last so that it can be used for any overrides
 if [ -e "$HOME/.bash_etc" ] ; then
   . "$HOME/.bash_etc"
 fi
+
+# Allow changing to anything in /usr/local/adnxs from anywhere
+export CDPATH="$CDPATH:/usr/local/adnxs"
