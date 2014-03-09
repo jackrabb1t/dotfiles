@@ -26,9 +26,10 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# Assume that we have color support (why wouldn't we) and make a pretty prompt
-# The prompt reads user@host:dir$
-PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]:$(parse_git_branch) \[\033[01;34m\]\W\[\033[00m\] λ '
+function parse_git_branch {
+   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+PS1='\[$(tput bold)\]${debian_chroot:+($debian_chroot)}\[$(tput setaf 1)\]\u\[$(tput setaf 7)\]@\[$(tput setaf 2)\]\H\[$(tput setaf 7)\]:\[$(tput setaf 6)\]\w\[$(tput setaf 2)\] $(parse_git_branch) \n$ \[\e[0m\] '
 # Ensure that the prompt starts at the far-left side (remove ^C crap and what not)
 # From: http://jonisalonen.com/2012/your-bash-prompt-needs-this/
 PS1="\[\033[G\]$PS1"
@@ -72,6 +73,10 @@ export PATH="${GOPATH//://bin:}/bin:$PATH";
 # Alias definitions
 if [ -e $HOME/.bashrc.aliases ] && [ -f $HOME/.bashrc.aliases ] ; then
   source $HOME/.bashrc.aliases
+fi
+# private aliases that should NOT be checked in
+if [ -e $HOME/.aliases ] && [ -f $HOME/.aliases ] ; then
+  source $HOME/.aliases
 fi
 
 # Load .bash_etc if it is available (for OS-specific configs, not versioned)
