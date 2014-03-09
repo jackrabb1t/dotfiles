@@ -29,7 +29,7 @@ fi
 function parse_git_branch {
    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
-PS1='\[$(tput bold)\]${debian_chroot:+($debian_chroot)}\[$(tput setaf 1)\]\u\[$(tput setaf 7)\]@\[$(tput setaf 2)\]\H\[$(tput setaf 7)\]:\[$(tput setaf 6)\]\w\[$(tput setaf 2)\] $(parse_git_branch) \n$ \[\e[0m\] '
+PS1='${debian_chroot:+($debian_chroot)}\[$(tput setaf 1)\]\u\[$(tput setaf 7)\]@\[$(tput setaf 2)\]\H\[$(tput setaf 7)\]:\[$(tput setaf 6)\]\w\[$(tput setaf 2)\] $(parse_git_branch) \n$ \[\e[0m\] '
 # Ensure that the prompt starts at the far-left side (remove ^C crap and what not)
 # From: http://jonisalonen.com/2012/your-bash-prompt-needs-this/
 PS1="\[\033[G\]$PS1"
